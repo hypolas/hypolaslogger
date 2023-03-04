@@ -1,3 +1,3 @@
-module github.com/hypolas/hypolaslogger.git
+module github.com/hypolas/hypolaslogger
 
 go 1.20
