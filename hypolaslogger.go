@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-// HypolasLogger is a function for variable debugging
+// VarDebug is a function for variable debugging
 type VarDebug func(info interface{}, name string)
 
 // HypolasLogger struct for logger
