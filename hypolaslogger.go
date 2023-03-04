@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// HypolasLogger: struct for logger
 type HypolasLogger struct {
 	Info    *log.Logger
 	Warn    *log.Logger
@@ -12,7 +13,7 @@ type HypolasLogger struct {
 	LogFile *os.File
 }
 
-// Create logs. PATH is the file path where logs will be store
+// NewLogger: create logs. PATH is the file path where logs will be store
 func NewLogger(path string) HypolasLogger {
 	var err error
 	l := HypolasLogger{}
