@@ -1,9 +1,11 @@
 package hypolaslogger
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"reflect"
 )
 
@@ -22,7 +24,16 @@ type HypolasLogger struct {
 }
 
 // NewLogger create logger. PATH is the file path where logs will be store
-func NewLogger(path string) HypolasLogger {
+func NewLogger(pathToLogFile string) HypolasLogger {
+	if pathToLogFile == "" {
+		pathToLogFile = os.Getenv("HYPOLAS_LOGS_FILE")
+	}
+
+	if pathToLogFile == "" {
+		log.Println("No path defined for NewLogger(pathToLogFile string).")
+		log.Fatalln("Define environnement variable HYPOLAS_LOGS_FILE or call function with pathToLogFile not empty.")
+	}
+
 	var err error
 	var l HypolasLogger
 	l = HypolasLogger{
@@ -42,7 +53,10 @@ func NewLogger(path string) HypolasLogger {
 		},
 	}
 
-	l.LogFile, err = os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	// Create logs directory if not exist
+	createLogsFolder(filepath.Dir(pathToLogFile))
+
+	l.LogFile, err = os.OpenFile(pathToLogFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -53,4 +67,13 @@ func NewLogger(path string) HypolasLogger {
 	l.Debug = log.New(l.LogFile, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
 
 	return l
+}
+
+func createLogsFolder(path string) {
+	if _, err := os.Stat(path); errors.Is(err, os.ErrNotExist) {
+		err := os.MkdirAll(path, os.ModePerm)
+		if err != nil {
+			log.Println("ERROR create directory:", err)
+		}
+	}
 }

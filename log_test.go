@@ -7,22 +7,24 @@ import (
 	"testing"
 )
 
-const (
-	testfile = "test/test.txt"
-)
-
 // Test if log is wheel write.
 func TestLogs(t *testing.T) {
-	// Remove existing test file
-	os.Remove(testfile)
+	os.Setenv("HYPOLAS_LOGS_FILE", "test/test.log")
 
-	log := NewLogger(testfile)
+	fpath := os.Getenv("HYPOLAS_LOGS_FILE")
+	// Remove existing test file
+	os.Remove(fpath)
+
+	log := NewLogger("")
 	log.Info.Println("Info")
 	log.Warn.Println("Warn")
 	log.Err.Println("Err")
-	log.VarDebug(testfile, "testfile")
 
-	readFile, err := os.Open(testfile)
+	// Test variable
+	var tesvar os.Process
+	log.VarDebug(tesvar, "tesvar")
+
+	readFile, err := os.Open(fpath)
 
 	if err != nil {
 		fmt.Println(err)
