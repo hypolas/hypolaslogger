@@ -7,10 +7,10 @@ import (
 	"reflect"
 )
 
-// Debug func
+// HypolasLogger is a function for variable debugging
 type VarDebug func(info interface{}, name string)
 
-// HypolasLogger: struct for logger
+// HypolasLogger struct for logger
 type HypolasLogger struct {
 	Info     *log.Logger
 	Warn     *log.Logger
@@ -21,7 +21,7 @@ type HypolasLogger struct {
 	LogDebug bool // Enable debug variable
 }
 
-// NewLogger: create logs. PATH is the file path where logs will be store
+// NewLogger create logger. PATH is the file path where logs will be store
 func NewLogger(path string) HypolasLogger {
 	var err error
 	var l HypolasLogger
