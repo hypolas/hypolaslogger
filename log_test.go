@@ -20,6 +20,7 @@ func TestLogs(t *testing.T) {
 	log.Info.Println("Info")
 	log.Warn.Println("Warn")
 	log.Err.Println("Err")
+	log.VarDebug(testfile, "testfile")
 
 	readFile, err := os.Open(testfile)
 
