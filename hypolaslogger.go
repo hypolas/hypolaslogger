@@ -14,10 +14,10 @@ type VarDebug func(info interface{}, name string)
 
 // HypolasLogger struct for logger
 type HypolasLogger struct {
-	Info     *log.Logger
-	Warn     *log.Logger
-	Err      *log.Logger
-	Debug    *log.Logger
+	Info     log.Logger
+	Warn     log.Logger
+	Err      log.Logger
+	Debug    log.Logger
 	VarDebug VarDebug // Debug variable. Print value, name and struct in log file
 	LogFile  *os.File
 	LogDebug bool // Enable debug variable
@@ -61,10 +61,10 @@ func NewLogger(pathToLogFile string) *HypolasLogger {
 		log.Fatal(err)
 	}
 
-	l.Info = log.New(l.LogFile, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-	l.Warn = log.New(l.LogFile, "WARNING: ", log.Ldate|log.Ltime|log.Lshortfile)
-	l.Err = log.New(l.LogFile, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
-	l.Debug = log.New(l.LogFile, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
+	l.Info = *log.New(l.LogFile, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+	l.Warn = *log.New(l.LogFile, "WARNING: ", log.Ldate|log.Ltime|log.Lshortfile)
+	l.Err = *log.New(l.LogFile, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+	l.Debug = *log.New(l.LogFile, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
 
 	return &l
 }
