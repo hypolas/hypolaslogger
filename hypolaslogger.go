@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+
 )
 
 // VarDebug is a function for variable debugging
@@ -38,6 +39,9 @@ func NewLogger(pathToLogFile string) HypolasLogger {
 	var l HypolasLogger
 	l = HypolasLogger{
 		VarDebug: func(info interface{}, name string) {
+			if os.Getenv("HYPOLAS_HEALTHCHECK_DEBUG") != "true" {
+				return
+			}
 			var deb string
 			deb = fmt.Sprintf("Name: %s | ", name)
 			deb = deb + fmt.Sprintf("Type: %+v | ", reflect.TypeOf(info))
