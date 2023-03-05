@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
-
 )
 
 // VarDebug is a function for variable debugging
@@ -65,10 +64,12 @@ func NewLogger(pathToLogFile string) HypolasLogger {
 		log.Fatal(err)
 	}
 
-	l.Info = log.New(l.LogFile, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-	l.Warn = log.New(l.LogFile, "WARNING: ", log.Ldate|log.Ltime|log.Lshortfile)
-	l.Err = log.New(l.LogFile, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
-	l.Debug = log.New(l.LogFile, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
+	executable := os.Getenv("HYPOLAS_HEALTHCHECK_EXECUTABLE")
+
+	l.Info = log.New(l.LogFile, fmt.Sprintf("INFO: %s:", executable), log.Ldate|log.Ltime|log.Lshortfile)
+	l.Warn = log.New(l.LogFile, fmt.Sprintf("WARNING: %s:", executable), log.Ldate|log.Ltime|log.Lshortfile)
+	l.Err = log.New(l.LogFile, fmt.Sprintf("ERROR: %s:", executable), log.Ldate|log.Ltime|log.Lshortfile)
+	l.Debug = log.New(l.LogFile, fmt.Sprintf("DEBUG: %s:", executable), log.Ldate|log.Ltime|log.Lshortfile)
 
 	return l
 }
