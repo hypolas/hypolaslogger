@@ -24,7 +24,7 @@ type HypolasLogger struct {
 }
 
 // NewLogger create logger. PATH is the file path where logs will be store
-func NewLogger(pathToLogFile string) HypolasLogger {
+func NewLogger(pathToLogFile string) *HypolasLogger {
 	if pathToLogFile == "" {
 		pathToLogFile = os.Getenv("HYPOLAS_LOGS_FILE")
 	}
@@ -66,7 +66,7 @@ func NewLogger(pathToLogFile string) HypolasLogger {
 	l.Err = log.New(l.LogFile, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
 	l.Debug = log.New(l.LogFile, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
 
-	return l
+	return &l
 }
 
 func createLogsFolder(path string) {
